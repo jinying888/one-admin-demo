@@ -1,27 +1,94 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    redirect: '/index'
+  },
+
+  {
+    path: '/index',
+    name: 'index',
+    meta: {title:'首页'},
+    redirect: '/index/index',
+    component: () => import('../views/index/index.vue'),
+    children:[
+      {
+        path: '/index/index',
+        name: '首页',
+        meta: {title:'首页'},
+        component: () => import('../views/index/index/index.vue'),
+      },
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/index/login',
+    name: 'login',
+    component: () => import('../views/index/login.vue')
+  },
+  {
+    path: '/index/about',
+    name: 'about',
+    component: () => import('../views/index/about.vue')
+  },
+  {
+    path: '/index/detail/:id',
+    name: 'detail',
+    component: () => import('../views/index/detail.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    meta: {title:'admin首页'},
+    redirect: '/home/index',
+    component: () => import('../views/home/home.vue'),
+    children:[
+      {
+        path: '/home/index',
+        name: '首页',
+        meta: {title:'首页'},
+        component: () => import('../views/home/index/index.vue'),
+      },
+      {
+        path: '/home/statis',
+        name: '数据统计',
+        meta: {title:'数据统计'},
+        component: () => import('../views/home/statis/index.vue'),
+      },
+      {
+        path: '/home/electron',
+        name: '电子产品',
+        meta: {title:'电子产品'},
+        component: () => import('../views/home/electron/index.vue'),
+      },
+      {
+        path: '/home/vcard',
+        name: '显卡',
+        meta: {title:'显卡'},
+        component: () => import('../views/home/electron/vcard.vue'),
+      },
+    ]
+  },
+  
+  
+  
 ]
 
 const router = new VueRouter({
   routes
+})
+
+//路由拦截
+router.beforeEach(function(to,from,next){
+  if(!sessionStorage.getItem('username')){
+    if(to.path !== '/login'){
+      next('/login')
+    }
+  }
+  next()
 })
 
 export default router
