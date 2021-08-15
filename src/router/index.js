@@ -22,23 +22,24 @@ const routes = [
         meta: {title:'首页'},
         component: () => import('../views/index/index/index.vue'),
       },
+      {
+        path: '/index/login',
+        name: 'login',
+        component: () => import('../views/index/login.vue')
+      },
+      {
+        path: '/index/about',
+        name: 'about',
+        component: () => import('../views/index/about.vue')
+      },
+      {
+        path: '/index/detail/:id',
+        name: 'detail',
+        component: () => import('../views/index/detail.vue')
+      },
     ]
   },
-  {
-    path: '/index/login',
-    name: 'login',
-    component: () => import('../views/index/login.vue')
-  },
-  {
-    path: '/index/about',
-    name: 'about',
-    component: () => import('../views/index/about.vue')
-  },
-  {
-    path: '/index/detail/:id',
-    name: 'detail',
-    component: () => import('../views/index/detail.vue')
-  },
+  
   {
     path: '/home',
     name: 'home',
@@ -72,7 +73,34 @@ const routes = [
       },
     ]
   },
-  
+  {
+    path: '/tour',
+    name: 'tour',
+    meta: {title:'旅游景点'},
+    redirect: '/tour/index',
+    component: () => import('../views/home/home.vue'),
+    children:[
+      {
+        path: '/tour/index',
+        name: '景点首页',
+        meta: {title:'景点首页'},
+        component: () => import('../views/home/tour/index.vue'),
+      },
+      {
+        path: '/tour/list',
+        name: '景点列表',
+        meta: {title:'景点列表'},
+        component: () => import('../views/home/tour/list.vue'),
+      },
+      {
+        path: '/tour/add',
+        name: '添加景点',
+        meta: {title:'添加景点'},
+        component: () => import('../views/home/tour/add.vue'),
+      },
+      
+    ]
+  },
   
   
 ]
