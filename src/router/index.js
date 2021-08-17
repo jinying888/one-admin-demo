@@ -112,8 +112,8 @@ const router = new VueRouter({
 //路由拦截
 router.beforeEach(function(to,from,next){
   if(!sessionStorage.getItem('username')){
-    if(to.path !== '/login'){
-      next('/login')
+    if(to.path !== '/index/login'){
+      next('/index/login')
     }
   }
   next()
