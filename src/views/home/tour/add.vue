@@ -9,7 +9,12 @@
             <el-input v-model="form.star" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="地理分类" prop="geo_category">
-            <el-input v-model="form.geo_category" autocomplete="off"></el-input>
+          <el-cascader
+            size="large"
+            :options="options"
+            v-model="geoSelectedOptions"
+            @change="handleChange">
+          </el-cascader>
           </el-form-item>
           <el-form-item label="架构" prop="framework">
             <el-input v-model="form.framework" autocomplete="off"></el-input>
@@ -54,6 +59,7 @@
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
 
 import { quillEditor } from 'vue-quill-editor'
 
@@ -69,6 +75,8 @@ export default {
           name: '',
           
         },
+        options: regionDataPlus,
+        geoSelectedOptions: [],
         fileList: [],
         editorOption:{
         placeholder: '',
@@ -130,6 +138,12 @@ export default {
         // }
           
         // })
+      },
+      handleChange (value) {
+        console.log(value)
+        value.forEach( function(item){
+          console.log(CodeToText[item])
+        } )
       }
     }
 }
