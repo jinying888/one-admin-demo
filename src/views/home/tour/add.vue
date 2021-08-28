@@ -8,26 +8,27 @@
           <el-form-item label="几星" prop="star">
             <el-input v-model="form.star" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="地理分类" prop="geo_category">
+          <el-form-item label="地理分类" prop="geo_selected">
           <el-cascader
             size="large"
             :options="options"
-            v-model="geoSelectedOptions"
+            v-model="form.geo_selected"
             @change="handleChange">
           </el-cascader>
           </el-form-item>
           <el-form-item label="架构" prop="framework">
             <el-input v-model="form.framework" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="景点图片" prop="form.image">
+          <el-form-item label="景点图片" prop="image">
             <el-upload
               class="upload-demo"
+              ref="upload"
               action="http://www.phpersky.com/api/demo/uploadimg"
               :on-preview="handlePreview"
               :on-remove="handleRemove"
               :on-success="handleSuccess"
               :file-list="fileList"
-              list-type="picture">
+              list-type="picture-card">
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
@@ -76,7 +77,6 @@ export default {
           
         },
         options: regionDataPlus,
-        geoSelectedOptions: [],
         fileList: [],
         editorOption:{
         placeholder: '',
@@ -118,13 +118,20 @@ export default {
       },
       handleSuccess(respo,file,fileList){
         console.log('upload success')
+        // 只取最新上传的图片，所以只有一张有效
+        this.fileList = [fileList[fileList.length - 1]];
+        // 可以传多张图片
+        // this.fileList = fileList
         //console.log(respo.img_url)
-        this.fileList.push(respo.data)
+        // this.fileList.push(respo.data)
         // console.log(fileList)
       },
       onAddSubmit(){
-        this.form.image = this.fileList[0].url;
-        console.log(this.form.image,this.fileList[0].url)
+        console.log(this.form)
+        this.form.image = this.fileList[0].response.data.url;
+        this.form.image_name = this.fileList[0].response.data.name;
+
+        console.log(this.form)
         // this.$http.post('/api/electron/addvcard',this.form).then(res=>{
         
         // let {code, data} = res.data
