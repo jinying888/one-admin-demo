@@ -1,23 +1,27 @@
 <template>
 
       <div class="add">
-        <el-form ref="form" :rules="rules" :model="form" class="myform"  :label-width="formLabelWidth">
+        <el-form ref="form" :model="form" class="myform"  :label-width="formLabelWidth">
           <el-form-item label="景点名称" prop="name">
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="几星" prop="star">
-            <el-input v-model="form.star" autocomplete="off"></el-input>
+            <el-select v-model="form.star" placeholder="请选择">
+              <el-option
+                v-for="item in star_options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="地理分类" prop="geo_selected">
+          <el-form-item label="地区分类" prop="district">
           <el-cascader
             size="large"
             :options="options"
-            v-model="form.geo_selected"
+            v-model="form.district"
             @change="handleChange">
           </el-cascader>
-          </el-form-item>
-          <el-form-item label="架构" prop="framework">
-            <el-input v-model="form.framework" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="景点图片" prop="image">
             <el-upload
@@ -76,6 +80,23 @@ export default {
           name: '',
           
         },
+        star_options: [{
+          value: '2',
+          label: '2星'
+        }, {
+          value: '3',
+          label: '3星'
+        }, {
+          value: '4',
+          label: '4星'
+        }, {
+          value: '5',
+          label: '5星'
+        }, {
+          value: '6',
+          label: '6星'
+        },
+        ],
         options: regionDataPlus,
         fileList: [],
         editorOption:{
@@ -122,29 +143,25 @@ export default {
         this.fileList = [fileList[fileList.length - 1]];
         // 可以传多张图片
         // this.fileList = fileList
-        //console.log(respo.img_url)
-        // this.fileList.push(respo.data)
-        // console.log(fileList)
       },
       onAddSubmit(){
-        console.log(this.form)
         this.form.image = this.fileList[0].response.data.url;
         this.form.image_name = this.fileList[0].response.data.name;
 
         console.log(this.form)
-        // this.$http.post('/api/electron/addvcard',this.form).then(res=>{
+        this.$http.post('/api/tour/addplace?a=1',this.form).then(res=>{
         
-        // let {code, data} = res.data
-
-        // if(code == 1){
-        //   //add success
-        //   console.log(code);
+        let {code, data} = res.data
+        console.log(data);
+        if(code == 1){
+          //add success
+          console.log(code);
         
-        // }else{
-        //   console.log(data)
-        // }
+        }else{
+          console.log(data)
+        }
           
-        // })
+        })
       },
       handleChange (value) {
         console.log(value)

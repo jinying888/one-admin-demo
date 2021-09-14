@@ -7,13 +7,13 @@ import store from './store'
 import axios from 'axios'
 import echarts from 'echarts';
 
-
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
 Vue.prototype.$http = axios
 Vue.prototype.$echarts = echarts
 
+// axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.baseURL = 'http://www.phpersky.com'
 
 new Vue({
