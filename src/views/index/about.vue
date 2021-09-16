@@ -84,11 +84,19 @@
       </div>
     </el-col>
   </el-row>
-  
+
+  <baidu-map class="bm-view" :center="center" :zoom="zoom" @ready="handler" ak="En9fLA7uAk6dsddwUSqSpebFIICmMIQ5">
+  </baidu-map>
+
 </div>
 </template>
+
 <script>
+  import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   export default {
+    components: {
+      BaiduMap
+    },
     data() {
       return {
         items_rtx30: [
@@ -100,6 +108,9 @@
         items_rx6000: [
           
         ],
+
+        center: {lng: 0, lat: 0},
+        zoom: 3
         
       }
     },
@@ -113,28 +124,35 @@
       getList(series){
         this.$http.get('/api/electron/frontendlist',{'params':{'series':series}}).then(res=>{
         
-        let {code, data} = res.data
-        
+          let {code, data} = res.data
+          
 
-        if(code == 1){
-          // according to series get items data
-          if(series == 'rtx30'){
-            this.items_rtx30 = data;
-          }else if(series == 'rtx20'){
-            this.items_rtx20 = data;
-          }else if(series == 'rx6000'){
-            this.items_rx6000 = data;
+          if(code == 1){
+            // according to series get items data
+            if(series == 'rtx30'){
+              this.items_rtx30 = data;
+            }else if(series == 'rtx20'){
+              this.items_rtx20 = data;
+            }else if(series == 'rx6000'){
+              this.items_rx6000 = data;
+            }
+            
+          }else{
+            console.log(data)
           }
-          
-        }else{
-          console.log(data)
-        }
-          
-      })
-      }
+            
+        })
+      },
+      handler ({BMap, map}) {
+        console.log(BMap, map)
+        this.center.lng = 112.404
+        this.center.lat = 33.915
+        this.zoom = 8
+      },
     }
   }
 </script>
+
 <style>
 .el-row {
     margin-bottom: 20px;
@@ -168,5 +186,10 @@
   .row-bg {
     padding: 10px 0;
     background-color: #f9fafc;
+  }
+
+  .bm-view {
+    width: 100%;
+    height: 300px;
   }
 </style>
