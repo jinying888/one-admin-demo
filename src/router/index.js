@@ -11,14 +11,12 @@ const routes = [
 
   {
     path: '/index',
-    name: 'index',
-    meta: {title:'首页'},
     redirect: '/index/index',
     component: () => import('../views/index/index.vue'),
     children:[
       {
         path: '/index/index',
-        name: '首页',
+        name: 'index',
         meta: {title:'首页'},
         component: () => import('../views/index/index/index.vue'),
       },
@@ -36,6 +34,16 @@ const routes = [
         path: '/index/detail/:id',
         name: 'detail',
         component: () => import('../views/index/detail.vue')
+      },
+      {
+        path: '/index/map',
+        name: 'map',
+        component: () => import('../views/index/map/index.vue')
+      },
+      {
+        path: '/index/test',
+        name: 'test',
+        component: () => import('../views/index/test.vue')
       },
     ]
   },

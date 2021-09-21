@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    站点首页
+    站点首页,123
     
     
   </div>

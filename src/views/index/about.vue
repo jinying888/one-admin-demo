@@ -85,18 +85,12 @@
     </el-col>
   </el-row>
 
-  <baidu-map class="bm-view" :center="center" :zoom="zoom" @ready="handler" ak="En9fLA7uAk6dsddwUSqSpebFIICmMIQ5">
-  </baidu-map>
-
 </div>
 </template>
 
 <script>
-  import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   export default {
-    components: {
-      BaiduMap
-    },
+    
     data() {
       return {
         items_rtx30: [
@@ -143,12 +137,7 @@
             
         })
       },
-      handler ({BMap, map}) {
-        console.log(BMap, map)
-        this.center.lng = 112.404
-        this.center.lat = 33.915
-        this.zoom = 8
-      },
+      
     }
   }
 </script>
@@ -188,8 +177,5 @@
     background-color: #f9fafc;
   }
 
-  .bm-view {
-    width: 100%;
-    height: 300px;
-  }
+  
 </style>
