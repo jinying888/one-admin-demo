@@ -5,6 +5,9 @@
           <el-form-item label="景点名称" prop="name">
             <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="景点简称" prop="abbreviate_name">
+            <el-input v-model="form.abbreviate_name" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="几星" prop="star">
             <el-select v-model="form.star" placeholder="请选择">
               <el-option
@@ -78,6 +81,7 @@ export default {
         formLabelWidth: '200px',
         form: {
           name: '',
+          star: '5',
           
         },
         star_options: [{
@@ -145,10 +149,13 @@ export default {
         // this.fileList = fileList
       },
       onAddSubmit(){
-        this.form.image = this.fileList[0].response.data.url;
-        this.form.image_name = this.fileList[0].response.data.name;
+        console.log(this.fileList.length)
+        if(this.fileList.length !== 0){
+          this.form.image = this.fileList[0].response.data.url;
+          this.form.image_name = this.fileList[0].response.data.name;
+        }
+        
 
-        console.log(this.form)
         this.$http.post('/api/tour/addplace?a=1',this.form).then(res=>{
         
         let {code, data} = res.data
@@ -156,9 +163,11 @@ export default {
         if(code == 1){
           //add success
           console.log(code);
+          alert('add success')
         
         }else{
           console.log(data)
+          alert('add fail')
         }
           
         })

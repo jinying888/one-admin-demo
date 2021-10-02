@@ -8,6 +8,11 @@
     <bm-info-window :position="currentPoint" title="行政区" :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
       <p v-html="infoWindow.contents"></p>
     </bm-info-window>
+    <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT" offset=10></bm-navigation>
+
+    <bm-marker :position="{lng: 116.404, lat: 39.915}" :icon="myIcon" :dragging="false">
+      <bm-label content="我爱北京天安门" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
+    </bm-marker>
     
   </baidu-map>
 
@@ -18,12 +23,18 @@
   import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   import BmInfoWindow  from 'vue-baidu-map/components/overlays/InfoWindow.vue'
   import Boundary  from 'vue-baidu-map/components/others/Boundary.vue'
+  import BmNavigation  from 'vue-baidu-map/components/controls/Navigation.vue'
+  import BmMarker  from 'vue-baidu-map/components/overlays/Marker.vue'
+  import BmLabel  from 'vue-baidu-map/components/overlays/Label.vue'
 
   export default {
     components: {
       BaiduMap,
       BmInfoWindow,
-      Boundary
+      Boundary,
+      BmNavigation,
+      BmMarker,
+      BmLabel
     },
     data() {
       return {
@@ -39,6 +50,7 @@
         },
         currentPoint: {},
         currentProvince: '',
+        myIcon: '',
         
       }
     },
@@ -46,13 +58,12 @@
     methods: {
       
       handler ({BMap, map}) {
-        console.log(BMap, map)
         this.center.lng = 112.404
         this.center.lat = 33.915
         this.zoom = 5
-        this.enableScrollWheelZoom = true;
+        this.enableScrollWheelZoom = true
 
-      },
+    　　},
 
       onMapClick(e){
         // alert('点击位置经纬度：' + e.point.lng + ',' + e.point.lat);
@@ -66,6 +77,7 @@
         var gc = new BMap.Geocoder();
         gc.getLocation(point, (rs) => {
           this.zoom = 7
+          //获取当前点击到了那个省
           this.currentProvince = rs.addressComponents.province;
           this.infoWindow.contents = '<div>省：' + rs.addressComponents.province + '</div>'
                       + '<div>市：' + rs.addressComponents.city + '</div>'

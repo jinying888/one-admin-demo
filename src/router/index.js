@@ -101,7 +101,7 @@ const routes = [
         component: () => import('../views/home/tour/list.vue'),
       },
       {
-        path: '/tour/add',
+        path: '/tour/add/:id?',
         name: '添加景点',
         meta: {title:'添加景点'},
         component: () => import('../views/home/tour/add.vue'),
